@@ -132,10 +132,21 @@ NS_ASSUME_NONNULL_BEGIN
   }];
 }
 
+- (BOOL)_isHomeVisible {
+  return [EXKernel sharedInstance].appRegistry.homeAppRecord.viewController == [self contentViewController];
+}
+
 // this is different from Util.reload()
 // because it can work even on an errored app record (e.g. with no manifest, or with no running bridge).
 - (void)reloadVisibleApp
 {
+  // treat home differently from other apps - just reload the bridge
+  if ([self _isHomeVisible]) {
+    EXReactAppManager *mgr = [EXKernel sharedInstance].appRegistry.homeAppRecord.appManager;
+    [mgr reloadBridge];
+    return;
+  }
+
   if (_isMenuVisible) {
     [self setIsMenuVisible:NO completion:nil];
   }
