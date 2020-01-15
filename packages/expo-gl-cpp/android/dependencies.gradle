@@ -306,7 +306,7 @@ def getNdkBuildFullPath() {
     return ndkBuildFullPath
 }
 
-task buildNdkLib(dependsOn: [prepareJSC, /* prepareJSI, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog /* */], type: Exec) {
+task buildNdkLib(dependsOn: [prepareJSC, prepareJSI, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog /* */], type: Exec) {
     inputs.dir("src/main/jni")
     inputs.dir("../cpp")
     outputs.dir("$buildDir/expo-gl-ndk/all")
