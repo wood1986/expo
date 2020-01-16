@@ -24,6 +24,20 @@
     "LICENSE-docs"
   ],
   "cocoapods_version": ">= 1.2.0",
+  "dependencies": {
+    "boost-for-react-native": [
+      "1.63.0"
+    ],
+    "DoubleConversion": [
+
+    ],
+    "Folly": [
+      "2018.10.22.00"
+    ],
+    "glog": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "Core",
@@ -167,24 +181,14 @@
     },
     {
       "name": "ABI35_0_0jsi",
-      "dependencies": {
-        "Folly": [
-          "2018.10.22.00"
-        ],
-        "DoubleConversion": [
-
-        ],
-        "glog": [
-
-        ]
-      },
       "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
-      "source_files": "ReactCommon/ABI35_0_0jsi/*.{cpp,h}",
-      "private_header_files": "ReactCommon/ABI35_0_0jsi/*.h",
+      "source_files": "ReactCommon/ABI35_0_0jsi/**/*.{cpp,h}",
+      "exclude_files": "ReactCommon/ABI35_0_0jsi/**/test/*",
       "frameworks": "JavaScriptCore",
       "pod_target_xcconfig": {
-        "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\""
-      }
+        "HEADER_SEARCH_PATHS": "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/Folly\""
+      },
+      "header_dir": "ABI35_0_0jsi"
     },
     {
       "name": "PrivateDatabase",

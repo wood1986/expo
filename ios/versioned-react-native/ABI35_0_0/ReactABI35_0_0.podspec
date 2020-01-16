@@ -127,14 +127,17 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ABI35_0_0jsi" do |ss|
-    ss.dependency             "Folly", folly_version
-    ss.dependency             "DoubleConversion"
-    ss.dependency             "glog"
+    s.dependency "boost-for-react-native", "1.63.0"
+    s.dependency "DoubleConversion"
+    s.dependency "Folly", folly_version
+    s.dependency "glog"
+
     ss.compiler_flags       = folly_compiler_flags
-    ss.source_files         = "ReactCommon/ABI35_0_0jsi/*.{cpp,h}"
-    ss.private_header_files = "ReactCommon/ABI35_0_0jsi/*.h"
+    ss.source_files         = "ReactCommon/ABI35_0_0jsi/**/*.{cpp,h}"
+    ss.exclude_files        = "ReactCommon/ABI35_0_0jsi/**/test/*"
     ss.framework            = "JavaScriptCore"
-    ss.pod_target_xcconfig  = { "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/ReactCommon\"" }
+    ss.pod_target_xcconfig  = { "HEADER_SEARCH_PATHS" => "\"$(PODS_TARGET_SRCROOT)/ReactCommon\" \"$(PODS_ROOT)/boost-for-react-native\" \"$(PODS_ROOT)/DoubleConversion\" \"$(PODS_ROOT)/Folly\"" }
+    ss.header_dir           = "ABI35_0_0jsi"
   end
 
   s.subspec "PrivateDatabase" do |ss|
