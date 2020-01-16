@@ -25,7 +25,7 @@ LOCAL_LDLIBS += -landroid
 LOCAL_SHARED_LIBRARIES := libfolly_json libfb libjsc libglog_init libyoga
 
 # The static libraries (.a files) that this module depends on.
-LOCAL_STATIC_LIBRARIES := libreactnative
+LOCAL_STATIC_LIBRARIES := libreactnative libjsi
 
 # Name of this module.
 #
