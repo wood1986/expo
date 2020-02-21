@@ -26,6 +26,4 @@ Pod::Spec.new do |s|
   s.dependency 'Firebase/Core', firebase_sdk_version
   s.dependency 'Firebase/MLVision', firebase_sdk_version
   s.dependency 'Firebase/MLVisionFaceModel', firebase_sdk_version
-  s.dependency 'FirebaseMLVision', "0.19.0"
-  s.dependency 'FirebaseMLCommon', "0.19.0"
 end
