@@ -113,6 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
     [UIViewController attemptRotationToDeviceOrientation];
     
     if (isMenuVisible) {
+      if (@available(iOS 13.0, *)) {
+        _menuViewController.overrideUserInterfaceStyle = self.overrideUserInterfaceStyle;
+      }
       // Add menu view controller as a child of the root view controller.
       [_menuViewController willMoveToParentViewController:self];
       [_menuViewController.view setFrame:self.view.frame];
