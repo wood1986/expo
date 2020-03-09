@@ -8208,10 +8208,6 @@ CACHE_KEYS:
     BUILD_SETTINGS_CHECKSUM:
       Debug: 234b9984682505865bf98188fdf8ee97
       Release: 234b9984682505865bf98188fdf8ee97
-  Pods-ExponentIntegrationTests:
-    BUILD_SETTINGS_CHECKSUM:
-      Debug: 8c94d5ea6c10a3e4056bfdf6596c84fa
-      Release: 8c94d5ea6c10a3e4056bfdf6596c84fa
   Pods-Tests:
     BUILD_SETTINGS_CHECKSUM:
       Debug: 8c94d5ea6c10a3e4056bfdf6596c84fa
