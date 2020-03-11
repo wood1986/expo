@@ -1039,8 +1039,8 @@ async function publishPackagesAsync(argv: any): Promise<void> {
 
 export default (program: Command) => {
   program
-    .command('publish-packages')
-    .alias('pub-pkg', 'pp')
+    .command('legacy-publish-packages')
+    .alias('leg-pub-pkg', 'lpp')
     .option('-l, --list-packages', 'Lists all packages the script can publish.')
     .option(
       '-t, --tag [string]',
