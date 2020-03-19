@@ -5,6 +5,7 @@
 #import <EXFileSystem/EXFileSystem.h>
 
 #import <CommonCrypto/CommonDigest.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #import <EXFileSystem/EXFileSystemLocalFileHandler.h>
 #import <EXFileSystem/EXFileSystemAssetLibraryHandler.h>
@@ -565,13 +566,29 @@ UM_EXPORT_METHOD_AS(uploadAsync,
     return;
   }
   
-  EXSessionUploadTaskDelegate* taskDelegate = [[EXSessionUploadTaskDelegate alloc] initWithResolve:resolve     reject:reject];
-  
+  EXSessionUploadTaskDelegate* taskDelegate = [[EXSessionUploadTaskDelegate alloc] initWithResolve:resolve reject:reject];
   NSURLSession *session = [self _createSession:taskDelegate withOptions:options];
+  
   NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
   [urlRequest setHTTPMethod:[self _importHttpMethod:options[@"httpMethod"]]];
 
-  NSURLSessionUploadTask *task = [session uploadTaskWithRequest:urlRequest fromFile:fileUri];
+  NSURLSessionUploadTask *task;
+  if ([self _isRawUploadType:options[@"uploadType"]]) {
+    task = [session uploadTaskWithRequest:urlRequest fromFile:fileUri];
+  } else {
+    NSString *boundaryString = [[NSUUID UUID] UUIDString];
+    [urlRequest setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundaryString] forHTTPHeaderField:@"Content-Type"];
+
+    NSData *httpBody = [self _createBodyWithBoundary:boundaryString
+                                             fileUri:fileUri
+                                          parameters:options[@"parameters"]
+                                           fieldName:options[@"fieldName"]
+                                            mimeType:options[@"mimeType"]];
+    [urlRequest setHTTPBody: httpBody];
+    
+    task = [session uploadTaskWithStreamedRequest:urlRequest];
+  }
+
   [task resume];
 }
 
@@ -662,12 +679,55 @@ UM_EXPORT_METHOD_AS(getTotalDiskCapacityAsync, getTotalDiskCapacityAsyncWithReso
 
 #pragma mark - Internal methods
 
-- (NSURLSession *)_createSession:(id<NSURLSessionDelegate>)delegate withOptions:(NSDictionary *)options
+// Borrowed from http://stackoverflow.com/questions/2439020/wheres-the-iphone-mime-type-database
+- (NSString *)_guessMIMETypeFromPath:(NSString *)path 
 {
-  EXFileSystemSessionType sessionType = [options[@"sessionType"] intValue] ?: EXFileSystemBackgroundSession;
-  NSDictionary *headers = options[@"headers"];
-  NSURLSessionConfiguration *sessionConfiguration;
+  CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[path pathExtension], NULL);
+  CFStringRef MIMEType = UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
+  CFRelease(UTI);
+  if (!MIMEType) {
+    return @"application/octet-stream";
+  }
+  return (__bridge NSString *)(MIMEType);
+}
+
+- (NSData *)_createBodyWithBoundary:(NSString *)boundary
+                            fileUri:(NSURL *)fileUri
+                         parameters:(NSDictionary * _Nullable)parameters
+                          fieldName:(NSString * _Nullable)fieldName
+                           mimeType:(NSString * _Nullable)mimetype
+{
+
+  NSMutableData *body = [NSMutableData data];
+  NSData *data = [NSData dataWithContentsOfURL:fileUri];
+  NSString *filename  = [[fileUri path] lastPathComponent];
   
+  if (!mimetype) {
+    mimetype = [self _guessMIMETypeFromPath:[fileUri path]];
+  }
+  
+  [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
+      [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+      [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", parameterKey] dataUsingEncoding:NSUTF8StringEncoding]];
+      [body appendData:[[NSString stringWithFormat:@"%@\r\n", parameterValue] dataUsingEncoding:NSUTF8StringEncoding]];
+  }];
+
+  [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+  [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName ?: filename, filename] dataUsingEncoding:NSUTF8StringEncoding]];
+  [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
+  [body appendData:data];
+  [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+
+  [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+  return body;
+}
+
+- (NSURLSession *)_createSession:(id<NSURLSessionDelegate>)delegate withOptions:(NSDictionary *)options 
+{
+  NSNumber *sessionType = options[@"sessionType"] ?: 0;
+  
+  NSURLSessionConfiguration *sessionConfiguration;
   if (sessionType == EXFileSystemBackgroundSession) {
     // background session
     sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:[[NSUUID UUID] UUIDString]];
@@ -702,7 +762,19 @@ UM_EXPORT_METHOD_AS(getTotalDiskCapacityAsync, getTotalDiskCapacityAsyncWithReso
   return result;
 }
 
-- (NSString *)_importHttpMethod:(NSNumber *)httpMethod
+- (NSURLSession *)_createSessionWithHeaders:(NSDictionary * _Nullable)headers
+{
+  NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:[[NSUUID UUID] UUIDString]];
+  sessionConfiguration.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+  if (headers != nil) {
+    sessionConfiguration.HTTPAdditionalHeaders = headers;
+  }
+  sessionConfiguration.URLCache = nil;
+  
+  return [NSURLSession sessionWithConfiguration:sessionConfiguration];
+}
+
+- (NSString *)_importHttpMethod:(NSNumber * _Nullable)httpMethod
 {
   if ([httpMethod isEqual:@(EXFileSystemPutMethod)]) {
     return @"PUT";
@@ -712,6 +784,15 @@ UM_EXPORT_METHOD_AS(getTotalDiskCapacityAsync, getTotalDiskCapacityAsyncWithReso
   }
   
   return @"POST";
+}
+
+- (BOOL)_isRawUploadType:(NSNumber * _Nullable)uploadType
+{
+  if ([uploadType isEqual:@1]) {
+    return false;
+  }
+  
+  return true;
 }
 
 - (void)_downloadResumableCreateSessionWithUrl:(NSURL *)url

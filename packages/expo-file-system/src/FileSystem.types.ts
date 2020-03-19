@@ -14,6 +14,11 @@ export enum FileSystemSessionType {
   FOREGROUND = 1,
 }
 
+export enum FileSystemUploadType {
+  RAW = 0,
+  MULTIPART = 1,
+}
+
 export type DownloadOptions = {
   md5?: boolean;
   cache?: boolean;
@@ -40,7 +45,19 @@ export type FileSystemDownloadResult = FileSystemHttpResult & {
  */
 export type DownloadResult = FileSystemDownloadResult;
 
-export type FileSystemUploadOptions = {
+export type FileSystemUploadOptions = (
+  | {
+      uploadType?: FileSystemUploadType.RAW;
+    }
+  | {
+      uploadType: FileSystemUploadType.MULTIPART;
+      fieldName?: string;
+      mimeType?: string;
+      parameters?: {
+        [key: string]: any;
+      };
+    }
+) & {
   headers?: { [name: string]: string };
   httpMethod?: FileSystemHttpMethods;
   sessionType?: FileSystemSessionType;

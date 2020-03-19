@@ -19,6 +19,7 @@ import {
   ProgressEvent,
   ReadingOptions,
   WritingOptions,
+  FileSystemUploadType,
 } from './FileSystem.types';
 
 if (!ExponentFileSystem) {
@@ -45,6 +46,7 @@ export {
   ProgressEvent,
   ReadingOptions,
   WritingOptions,
+  FileSystemUploadType,
 };
 
 function normalizeEndingSlash(p: string | null): string | null {
