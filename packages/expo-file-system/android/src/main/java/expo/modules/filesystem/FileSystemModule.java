@@ -517,7 +517,6 @@ public class FileSystemModule extends ExportedModule {
       if (options.containsKey("httpMethod")) {
         method = importHttpMethod((int) (double) options.get("httpMethod"));
       }
-
       requestBuilder.method(method.toString(), body);
 
       getOkHttpClient().newCall(requestBuilder.build()).enqueue(new Callback() {
