@@ -97,6 +97,26 @@ public class FileSystemModule extends ExportedModule {
     }
   }
 
+  private enum UploadType {
+    BINARY_CONTENT(0),
+    MULTIPART(1);
+
+    private int value;
+
+    UploadType(int value) {
+      this.value = value;
+    }
+
+    public static UploadType fromInt(int value) {
+      for (UploadType method : values()) {
+        if (method.value == value) {
+          return method;
+        }
+      }
+      return BINARY_CONTENT;
+    }
+  }
+
   private ModuleRegistry mModuleRegistry;
   private OkHttpClient mClient;
 
@@ -517,12 +537,13 @@ public class FileSystemModule extends ExportedModule {
         method = importHttpMethod((int) (double) options.get("httpMethod"));
       }
 
-      int type = 0;
+
+      UploadType uploadType = UploadType.BINARY_CONTENT;
       if (options.containsKey("uploadType")) {
-        type = (int) (double) options.get("uploadType");
+        uploadType = UploadType.fromInt((int) (double) options.get("uploadType"));
       }
 
-      if (isRawUpload(type)) {
+      if (uploadType == UploadType.BINARY_CONTENT) {
         RequestBody body = RequestBody.create(null, file);
         requestBuilder.method(method.toString(), body);
       } else {
@@ -1050,9 +1071,5 @@ public class FileSystemModule extends ExportedModule {
 
   private HTTPMethod importHttpMethod(int method) {
     return HTTPMethod.fromInt(method);
-  }
-
-  private boolean isRawUpload(int type) {
-    return type == 0;
   }
 }
