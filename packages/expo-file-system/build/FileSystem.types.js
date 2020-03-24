@@ -15,7 +15,7 @@ export var FileSystemSessionType;
 })(FileSystemSessionType || (FileSystemSessionType = {}));
 export var FileSystemUploadType;
 (function (FileSystemUploadType) {
-    FileSystemUploadType[FileSystemUploadType["RAW"] = 0] = "RAW";
+    FileSystemUploadType[FileSystemUploadType["BINARY_CONTENT"] = 0] = "BINARY_CONTENT";
     FileSystemUploadType[FileSystemUploadType["MULTIPART"] = 1] = "MULTIPART";
 })(FileSystemUploadType || (FileSystemUploadType = {}));
 export var EncodingType;

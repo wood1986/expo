@@ -584,7 +584,7 @@ UM_EXPORT_METHOD_AS(uploadAsync,
                                           parameters:options[@"parameters"]
                                            fieldName:options[@"fieldName"]
                                             mimeType:options[@"mimeType"]];
-    [urlRequest setHTTPBody: httpBody];
+    [urlRequest setHTTPBody:httpBody];
     
     task = [session uploadTaskWithStreamedRequest:urlRequest];
   }
@@ -697,7 +697,6 @@ UM_EXPORT_METHOD_AS(getTotalDiskCapacityAsync, getTotalDiskCapacityAsyncWithReso
                           fieldName:(NSString * _Nullable)fieldName
                            mimeType:(NSString * _Nullable)mimetype
 {
-
   NSMutableData *body = [NSMutableData data];
   NSData *data = [NSData dataWithContentsOfURL:fileUri];
   NSString *filename  = [[fileUri path] lastPathComponent];
@@ -779,11 +778,8 @@ UM_EXPORT_METHOD_AS(getTotalDiskCapacityAsync, getTotalDiskCapacityAsyncWithReso
   if ([httpMethod isEqual:@(EXFileSystemPutMethod)]) {
     return @"PUT";
   }
-  if ([httpMethod isEqual:@(EXFileSystemPatchMethod)]) {
-    return @"PATCH";
-  }
-  
-  return @"POST";
+
+  return [httpMethod isEqual:@(EXFileSystemPatchMethod)] ? @"PATCH" : @"POST";
 }
 
 - (BOOL)_isRawUploadType:(NSNumber * _Nullable)uploadType

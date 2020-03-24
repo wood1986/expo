@@ -3,7 +3,7 @@ export declare enum FileSystemSessionType {
     FOREGROUND = 1
 }
 export declare enum FileSystemUploadType {
-    RAW = 0,
+    BINARY_CONTENT = 0,
     MULTIPART = 1
 }
 export declare type DownloadOptions = {
@@ -29,8 +29,14 @@ export declare type FileSystemDownloadResult = FileSystemHttpResult & {
  * @deprecated Use FileSystemDownloadResult instead.
  */
 export declare type DownloadResult = FileSystemDownloadResult;
-export declare type FileSystemUploadOptions = ({
-    uploadType?: FileSystemUploadType.RAW;
+export declare type FileSystemUploadOptions = {
+    headers?: {
+        [name: string]: string;
+    };
+    httpMethod?: FileSystemHttpMethods;
+    sessionType?: FileSystemSessionType;
+} & ({
+    uploadType?: FileSystemUploadType.BINARY_CONTENT;
 } | {
     uploadType: FileSystemUploadType.MULTIPART;
     fieldName?: string;
@@ -38,13 +44,7 @@ export declare type FileSystemUploadOptions = ({
     parameters?: {
         [key: string]: any;
     };
-}) & {
-    headers?: {
-        [name: string]: string;
-    };
-    httpMethod?: FileSystemHttpMethods;
-    sessionType?: FileSystemSessionType;
-};
+});
 export declare type FileSystemUploadResult = FileSystemHttpResult & {
     body: string;
 };

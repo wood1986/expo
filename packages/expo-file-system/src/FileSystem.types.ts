@@ -15,7 +15,7 @@ export enum FileSystemSessionType {
 }
 
 export enum FileSystemUploadType {
-  RAW = 0,
+  BINARY_CONTENT = 0,
   MULTIPART = 1,
 }
 
@@ -45,9 +45,13 @@ export type FileSystemDownloadResult = FileSystemHttpResult & {
  */
 export type DownloadResult = FileSystemDownloadResult;
 
-export type FileSystemUploadOptions = (
+export type FileSystemUploadOptions = {
+  headers?: { [name: string]: string };
+  httpMethod?: FileSystemHttpMethods;
+  sessionType?: FileSystemSessionType;
+} & (
   | {
-      uploadType?: FileSystemUploadType.RAW;
+      uploadType?: FileSystemUploadType.BINARY_CONTENT;
     }
   | {
       uploadType: FileSystemUploadType.MULTIPART;
@@ -57,11 +61,7 @@ export type FileSystemUploadOptions = (
         [key: string]: any;
       };
     }
-) & {
-  headers?: { [name: string]: string };
-  httpMethod?: FileSystemHttpMethods;
-  sessionType?: FileSystemSessionType;
-};
+);
 
 export type FileSystemUploadResult = FileSystemHttpResult & {
   body: string;
