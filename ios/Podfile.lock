@@ -1656,6 +1656,8 @@ PODS:
     - UMFileSystemInterface
   - EXWebBrowser (8.1.0):
     - UMCore
+  - EXWebBrowser/Tests (8.1.0):
+    - UMCore
   - Fabric (1.10.2)
   - FBAudienceNetwork (5.7.1):
     - FBSDKCoreKit/Basics (>= 5.6.0)
@@ -2548,6 +2550,7 @@ DEPENDENCIES:
   - EXTaskManager (from `../packages/expo-task-manager/ios`)
   - EXVideoThumbnails (from `../packages/expo-video-thumbnails/ios`)
   - EXWebBrowser (from `../packages/expo-web-browser/ios`)
+  - EXWebBrowser/Tests (from `../packages/expo-web-browser/ios`)
   - Fabric (~> 1.10.2)
   - FBLazyVector (from `../react-native-lab/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../react-native-lab/react-native/Libraries/FBReactNativeSpec`)
@@ -3860,7 +3863,7 @@ SPEC CHECKSUMS:
   EXStoreReview: 8a238c698c0cc2f7f46b21b6fa05c070003fd3cd
   EXTaskManager: 6cc65abbc1b226524d551ef2a08a7afe8be03044
   EXVideoThumbnails: 48d74ed69e51b52936d68fe24de8530d2a0500dc
-  EXWebBrowser: 4118b18d151fd03c935bd9de4cd312d2b33ec2c5
+  EXWebBrowser: 9a11478749ea84222918bde9d0ad13eb490376e4
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   FBAudienceNetwork: 33fc8c8c07c1cdbf5279784b73729c6410809daa
   FBLazyVector: feb35a6b7f7b50f367be07f34012f34a79282fa3
