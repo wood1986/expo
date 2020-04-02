@@ -17,25 +17,6 @@ import java.util.Arrays;
 
 public class OutlineProvider extends ViewOutlineProvider {
 
-  public enum BorderRadiusConfig {
-    ALL,
-    TOP_LEFT,
-    TOP_RIGHT,
-    BOTTOM_RIGHT,
-    BOTTOM_LEFT,
-    TOP_START,
-    TOP_END,
-    BOTTOM_START,
-    BOTTOM_END
-  }
-
-  public enum CornerRadius {
-    TOP_LEFT,
-    TOP_RIGHT,
-    BOTTOM_RIGHT,
-    BOTTOM_LEFT,
-  }
-
   private Context mContext;
   private int mLayoutDirection;
   private RectF mBounds;
@@ -44,7 +25,6 @@ public class OutlineProvider extends ViewOutlineProvider {
   private boolean mCornerRadiiInvalidated;
   private Path mConvexPath;
   private boolean mConvexPathInvalidated;
-
   public OutlineProvider(Context context) {
     super();
     mContext = context;
@@ -64,40 +44,40 @@ public class OutlineProvider extends ViewOutlineProvider {
       boolean isRTL = mLayoutDirection == View.LAYOUT_DIRECTION_RTL;
       boolean isRTLSwap = I18nUtil.getInstance().doLeftAndRightSwapInRTL(mContext);
       updateCornerRadius(
-              CornerRadius.TOP_LEFT,
-              BorderRadiusConfig.TOP_LEFT,
-              BorderRadiusConfig.TOP_RIGHT,
-              BorderRadiusConfig.TOP_START,
-              BorderRadiusConfig.TOP_END,
-              isRTL,
-              isRTLSwap
+        CornerRadius.TOP_LEFT,
+        BorderRadiusConfig.TOP_LEFT,
+        BorderRadiusConfig.TOP_RIGHT,
+        BorderRadiusConfig.TOP_START,
+        BorderRadiusConfig.TOP_END,
+        isRTL,
+        isRTLSwap
       );
       updateCornerRadius(
-              CornerRadius.TOP_RIGHT,
-              BorderRadiusConfig.TOP_RIGHT,
-              BorderRadiusConfig.TOP_LEFT,
-              BorderRadiusConfig.TOP_END,
-              BorderRadiusConfig.TOP_START,
-              isRTL,
-              isRTLSwap
+        CornerRadius.TOP_RIGHT,
+        BorderRadiusConfig.TOP_RIGHT,
+        BorderRadiusConfig.TOP_LEFT,
+        BorderRadiusConfig.TOP_END,
+        BorderRadiusConfig.TOP_START,
+        isRTL,
+        isRTLSwap
       );
       updateCornerRadius(
-              CornerRadius.BOTTOM_LEFT,
-              BorderRadiusConfig.BOTTOM_LEFT,
-              BorderRadiusConfig.BOTTOM_RIGHT,
-              BorderRadiusConfig.BOTTOM_START,
-              BorderRadiusConfig.BOTTOM_END,
-              isRTL,
-              isRTLSwap
+        CornerRadius.BOTTOM_LEFT,
+        BorderRadiusConfig.BOTTOM_LEFT,
+        BorderRadiusConfig.BOTTOM_RIGHT,
+        BorderRadiusConfig.BOTTOM_START,
+        BorderRadiusConfig.BOTTOM_END,
+        isRTL,
+        isRTLSwap
       );
       updateCornerRadius(
-              CornerRadius.BOTTOM_RIGHT,
-              BorderRadiusConfig.BOTTOM_RIGHT,
-              BorderRadiusConfig.BOTTOM_LEFT,
-              BorderRadiusConfig.BOTTOM_END,
-              BorderRadiusConfig.BOTTOM_START,
-              isRTL,
-              isRTLSwap
+        CornerRadius.BOTTOM_RIGHT,
+        BorderRadiusConfig.BOTTOM_RIGHT,
+        BorderRadiusConfig.BOTTOM_LEFT,
+        BorderRadiusConfig.BOTTOM_END,
+        BorderRadiusConfig.BOTTOM_START,
+        isRTL,
+        isRTLSwap
       );
       mCornerRadiiInvalidated = false;
       mConvexPathInvalidated = true;
@@ -131,18 +111,18 @@ public class OutlineProvider extends ViewOutlineProvider {
     if (mConvexPathInvalidated) {
       mConvexPath.reset();
       mConvexPath.addRoundRect(
-              mBounds,
-              new float[]{
-                      mCornerRadii[CornerRadius.TOP_LEFT.ordinal()],
-                      mCornerRadii[CornerRadius.TOP_LEFT.ordinal()],
-                      mCornerRadii[CornerRadius.TOP_RIGHT.ordinal()],
-                      mCornerRadii[CornerRadius.TOP_RIGHT.ordinal()],
-                      mCornerRadii[CornerRadius.BOTTOM_RIGHT.ordinal()],
-                      mCornerRadii[CornerRadius.BOTTOM_RIGHT.ordinal()],
-                      mCornerRadii[CornerRadius.BOTTOM_LEFT.ordinal()],
-                      mCornerRadii[CornerRadius.BOTTOM_LEFT.ordinal()]
-              },
-              Path.Direction.CW);
+        mBounds,
+        new float[]{
+          mCornerRadii[CornerRadius.TOP_LEFT.ordinal()],
+          mCornerRadii[CornerRadius.TOP_LEFT.ordinal()],
+          mCornerRadii[CornerRadius.TOP_RIGHT.ordinal()],
+          mCornerRadii[CornerRadius.TOP_RIGHT.ordinal()],
+          mCornerRadii[CornerRadius.BOTTOM_RIGHT.ordinal()],
+          mCornerRadii[CornerRadius.BOTTOM_RIGHT.ordinal()],
+          mCornerRadii[CornerRadius.BOTTOM_LEFT.ordinal()],
+          mCornerRadii[CornerRadius.BOTTOM_LEFT.ordinal()]
+        },
+        Path.Direction.CW);
       mConvexPathInvalidated = false;
     }
   }
@@ -219,5 +199,24 @@ public class OutlineProvider extends ViewOutlineProvider {
       updateConvexPathIfNeeded();
       canvas.clipPath(mConvexPath);
     }
+  }
+
+  public enum BorderRadiusConfig {
+    ALL,
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_RIGHT,
+    BOTTOM_LEFT,
+    TOP_START,
+    TOP_END,
+    BOTTOM_START,
+    BOTTOM_END
+  }
+
+  public enum CornerRadius {
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_RIGHT,
+    BOTTOM_LEFT,
   }
 }
