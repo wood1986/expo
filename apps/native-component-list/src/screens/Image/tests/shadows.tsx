@@ -90,6 +90,22 @@ const imageTests: ImageTestGroup = {
         },
       }),
     },
+    {
+      name: 'Shadow: and transparent background (gives warning)',
+      props: ({ range }: ImageTestPropsFnInput) => ({
+        style: {
+          backgroundColor: '#00000088',
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: range(2, 5),
+          },
+          shadowOpacity: range(0.2, 0.5),
+          shadowRadius: range(0, 10),
+          elevation: range(0, 10),
+        },
+      }),
+    },
   ],
 };
 

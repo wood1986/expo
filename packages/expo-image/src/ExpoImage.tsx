@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, requireNativeComponent, StyleSheet, Platform } from 'react-native';
+import { Image, requireNativeComponent, StyleSheet, Platform, processColor } from 'react-native';
 
 import { ImageProps } from './Image';
 
@@ -45,11 +45,15 @@ export default function ExpoImage({ source, style, ...props }: ImageProps) {
   // To achieve a consistent appearance on all platforms, it is highly recommended
   // to set a background-color on the Image when using shadows. This will ensure
   // consistent rendering on all platforms and mitigate Androids drawing artefacts.
-  if (hasShadows && !resolvedStyle.backgroundColor) {
-    console.warn(
-      `"expo-image" Shadows may not be rendered correctly for the transparent parts of images. Set "backgroundColor" to a non-transparent color when using a shadow.`
-    );
-    // To silence this warning, set background-color to a fully transparent color
+  if (hasShadows) {
+    const bkColor = resolvedStyle.backgroundColor ? processColor(resolvedStyle.backgroundColor) : 0;
+    const alpha = bkColor >> 24;
+    if (alpha !== -1 && alpha !== 255) {
+      // To silence this warning, set background-color to a fully transparent color
+      console.warn(
+        `"expo-image" Shadows may not be rendered correctly for the transparent parts of images. Set "backgroundColor" to a non-transparent color when using a shadow.`
+      );
+    }
   }
 
   return <NativeExpoImage {...props} source={resolvedSource} style={resolvedStyle} />;
