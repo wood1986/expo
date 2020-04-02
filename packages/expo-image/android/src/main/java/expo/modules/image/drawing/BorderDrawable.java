@@ -34,6 +34,9 @@ import java.util.Locale;
  * These issues have been submitted to the upstream react-native repo.
  * Once fixes this class is a candidate for removal and we can use
  * ReactBackgroundDrawable from RN instead.
+ * https://github.com/facebook/react-native/pull/28356
+ * https://github.com/facebook/react-native/pull/28358
+ * https://github.com/facebook/react-native/pull/28359
  */
 public class BorderDrawable extends Drawable {
 
