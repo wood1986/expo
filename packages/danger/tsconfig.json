@@ -7,7 +7,7 @@
     "inlineSources": true,
     "outDir": "./build",
     "rootDir": "./src",
-    "types": ["node"],
+    "types": ["node", "jest", "jest-require"],
     "strict": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
