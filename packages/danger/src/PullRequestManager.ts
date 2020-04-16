@@ -67,7 +67,7 @@ export class PullRequestManager {
     const changelogSection = this.pullRequest.body.match(/#\schangelog(([^#]*?)\s?)*/i)?.[0];
     if (changelogSection) {
       changelogSection
-        .replace(/^-/, '')
+        .replace(/^(\s*-)/gm, '')
         .split('\n')
         .slice(1)
         .map(line => line.trim())
@@ -131,17 +131,17 @@ export class PullRequestManager {
       packageName: DEFAULT_CHANGELOG_ENTRY_KEY,
     };
 
-    const tags = line.match(/\[[^\]]*\]/g);
+    const tags = line.match(/\[[^\]]*\]/g)?.map(tag => tag.slice(1, tag.length - 1));
     if (!tags) {
       return result;
     }
 
     for (const tag of tags) {
       const entryType = parseEntryType(tag);
-      if (entryType) {
+      if (entryType != null) {
         result.type = Math.max(result.type, entryType);
       } else if (isExpoPackage(tag)) {
-        result.packageName = tag.replace(/\[|\]/g, '').trim();
+        result.packageName = tag;
       }
     }
 
