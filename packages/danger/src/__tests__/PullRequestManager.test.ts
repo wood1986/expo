@@ -1,11 +1,26 @@
+// import { mockProperty, unmockProperty, unmockAllProperties } from 'jest-expo';
+
 import { GithubApiWrapper } from '../GithubApiWrapper';
 import { PullRequestManager } from '../PullRequestManager';
 
-var global;
+let danger: any;
 
-const pullRequestManager = new PullRequestManager(
-  global.danger,
-  new GithubApiWrapper(global.danger.api, 'danger-test-bot', 'danger-test')
-);
+describe('parseChangelogSuggestionFromDescription', () => {
+  it('parse tags from title', () => {
+    danger = {
+      github: {
+        pr: {
+          title: '[expo][expo-image-picker]',
+          body: '',
+        },
+      },
+    };
 
-describe('parseChangelogSuggestionFromDescription', () => {});
+    const pullRequestManager = new PullRequestManager(
+      danger.github.pr,
+      new GithubApiWrapper(danger.github.api, 'danger-test-bot', 'danger-test')
+    );
+
+    console.log(pullRequestManager.parseChangelogSuggestionFromDescription());
+  });
+});
