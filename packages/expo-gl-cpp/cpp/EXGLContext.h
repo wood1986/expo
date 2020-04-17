@@ -10,6 +10,8 @@
 #include <OpenGLES/ES3/glext.h>
 #endif
 
+#include "TypedArrayApi.h"
+
 #include <exception>
 #include <future>
 #include <sstream>

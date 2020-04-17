@@ -93,35 +93,35 @@ NATIVE_METHOD(getParameter) {
   switch (pname) {
       // Float32Array[0]
     case GL_COMPRESSED_TEXTURE_FORMATS:
-      return jsi::TypedArray<jsi::TypedArrayKind::Float32Array>(runtime, {});
+      return TypedArray<TypedArrayKind::Float32Array>(runtime, {});
 
       // FLoat32Array[2]
     case GL_ALIASED_LINE_WIDTH_RANGE:
     case GL_ALIASED_POINT_SIZE_RANGE:
     case GL_DEPTH_RANGE: {
-      std::vector<jsi::TypedArrayBase::ContentType<jsi::TypedArrayKind::Float32Array>> glResults(2);
+      std::vector<TypedArrayBase::ContentType<TypedArrayKind::Float32Array>> glResults(2);
       addBlockingToNextBatch([&] { glGetFloatv(pname, glResults.data()); });
-      return jsi::TypedArray<jsi::TypedArrayKind::Float32Array>(runtime, glResults);
+      return TypedArray<TypedArrayKind::Float32Array>(runtime, glResults);
     }
       // FLoat32Array[4]
     case GL_BLEND_COLOR:
     case GL_COLOR_CLEAR_VALUE: {
-      std::vector<jsi::TypedArrayBase::ContentType<jsi::TypedArrayKind::Float32Array>> glResults(4);
+      std::vector<TypedArrayBase::ContentType<TypedArrayKind::Float32Array>> glResults(4);
       addBlockingToNextBatch([&] { glGetFloatv(pname, glResults.data()); });
-      return jsi::TypedArray<jsi::TypedArrayKind::Float32Array>(runtime, glResults);
+      return TypedArray<TypedArrayKind::Float32Array>(runtime, glResults);
     }
       // Int32Array[2]
     case GL_MAX_VIEWPORT_DIMS: {
-      std::vector<jsi::TypedArrayBase::ContentType<jsi::TypedArrayKind::Int32Array>> glResults(2);
+      std::vector<TypedArrayBase::ContentType<TypedArrayKind::Int32Array>> glResults(2);
       addBlockingToNextBatch([&] { glGetIntegerv(pname, glResults.data()); });
-      return jsi::TypedArray<jsi::TypedArrayKind::Int32Array>(runtime, glResults);
+      return TypedArray<TypedArrayKind::Int32Array>(runtime, glResults);
     }
       // Int32Array[4]
     case GL_SCISSOR_BOX:
     case GL_VIEWPORT: {
-      std::vector<jsi::TypedArrayBase::ContentType<jsi::TypedArrayKind::Int32Array>> glResults(4);
+      std::vector<TypedArrayBase::ContentType<TypedArrayKind::Int32Array>> glResults(4);
       addBlockingToNextBatch([&] { glGetIntegerv(pname, glResults.data()); });
-      return jsi::TypedArray<jsi::TypedArrayKind::Int32Array>(runtime, glResults);
+      return TypedArray<TypedArrayKind::Int32Array>(runtime, glResults);
     }
       // boolean[4]
     case GL_COLOR_WRITEMASK: {
@@ -399,8 +399,9 @@ NATIVE_METHOD(readPixels) {
   std::vector<uint8_t> pixels(byteLength);
   addBlockingToNextBatch([&] { glReadPixels(x, y, width, height, format, type, pixels.data()); });
 
-  jsi::TypedArrayBase arr = ARG(6, jsi::TypedArrayBase);
-  arr.getBuffer(runtime).update(runtime, pixels, arr.byteOffset(runtime));
+  TypedArrayBase arr = ARG(6, TypedArrayBase);
+  jsi::ArrayBuffer buffer = arr.getBuffer(runtime);
+  arrayBufferUpdate(runtime, buffer, pixels, arr.byteOffset(runtime));
   return nullptr;
 }
 
@@ -555,8 +556,8 @@ NATIVE_METHOD(texImage2D, 6) {
     }
     auto data = ARG(8, jsi::Object);
 
-    if (data.isArrayBuffer(runtime) || data.isTypedArray(runtime)) {
-      std::vector<uint8_t> vec = rawArrayBuffer(runtime, data);
+    if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
+      std::vector<uint8_t> vec = rawArrayBuffer(runtime, std::move(data));
       if (unpackFLipY) {
         flipPixels(vec.data(), width * bytesPerPixel(type, format), height);
       }
@@ -613,8 +614,8 @@ NATIVE_METHOD(texSubImage2D, 6) {
 
     auto data = ARG(8, jsi::Object);
 
-    if (data.isArrayBuffer(runtime) || data.isTypedArray(runtime)) {
-      std::vector<uint8_t> vec = rawArrayBuffer(runtime, data);
+    if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
+      std::vector<uint8_t> vec = rawArrayBuffer(runtime, std::move(data));
       if (unpackFLipY) {
         flipPixels(vec.data(), width * bytesPerPixel(type, format), height);
       }
@@ -688,8 +689,8 @@ NATIVE_METHOD(texImage3D) {
     }
   };
 
-  if (data.isArrayBuffer(runtime) || data.isTypedArray(runtime)) {
-    std::vector<uint8_t> vec = rawArrayBuffer(runtime, data);
+  if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
+    std::vector<uint8_t> vec = rawArrayBuffer(runtime, std::move(data));
     if (unpackFLipY) {
       flip(vec.data());
     }
@@ -741,8 +742,8 @@ NATIVE_METHOD(texSubImage3D) {
     }
   };
 
-  if (data.isArrayBuffer(runtime) || data.isTypedArray(runtime)) {
-    std::vector<uint8_t> vec = rawArrayBuffer(runtime, data);
+  if (data.isArrayBuffer(runtime) || isTypedArray(runtime, data)) {
+    std::vector<uint8_t> vec = rawArrayBuffer(runtime, std::move(data));
     if (unpackFLipY) {
       flip(vec.data());
     }
@@ -1228,7 +1229,7 @@ NATIVE_METHOD(drawBuffers) {
 NATIVE_METHOD(clearBufferfv) {
   auto buffer = ARG(0, GLenum);
   auto drawbuffer = ARG(1, GLint);
-  auto values = ARG(2, jsi::TypedArrayKind::Float32Array).toVector(runtime);
+  auto values = ARG(2, TypedArrayKind::Float32Array).toVector(runtime);
   addToNextBatch(
       [=, values{std::move(values)}] { glClearBufferfv(buffer, drawbuffer, values.data()); });
   return nullptr;
@@ -1237,7 +1238,7 @@ NATIVE_METHOD(clearBufferfv) {
 NATIVE_METHOD(clearBufferiv) {
   auto buffer = ARG(0, GLenum);
   auto drawbuffer = ARG(1, GLint);
-  auto values = ARG(2, jsi::TypedArrayKind::Int32Array).toVector(runtime);
+  auto values = ARG(2, TypedArrayKind::Int32Array).toVector(runtime);
   addToNextBatch(
       [=, values{std::move(values)}] { glClearBufferiv(buffer, drawbuffer, values.data()); });
   return nullptr;
@@ -1246,7 +1247,7 @@ NATIVE_METHOD(clearBufferiv) {
 NATIVE_METHOD(clearBufferuiv) {
   auto buffer = ARG(0, GLenum);
   auto drawbuffer = ARG(1, GLint);
-  auto values = ARG(2, jsi::TypedArrayKind::Uint32Array).toVector(runtime);
+  auto values = ARG(2, TypedArrayKind::Uint32Array).toVector(runtime);
   addToNextBatch(
       [=, values{std::move(values)}] { glClearBufferuiv(buffer, drawbuffer, values.data()); });
   return nullptr;
@@ -1460,7 +1461,7 @@ NATIVE_METHOD(getUniformIndices) {
     glGetUniformIndices(
         lookupObject(program), uniformNames.size(), uniformNamesRaw.data(), &indices[0]);
   });
-  return jsi::TypedArray<jsi::TypedArrayKind::Uint32Array>(runtime, indices);
+  return TypedArray<TypedArrayKind::Uint32Array>(runtime, indices);
 }
 
 NATIVE_METHOD(getActiveUniforms) {
@@ -1477,7 +1478,7 @@ NATIVE_METHOD(getActiveUniforms) {
         pname,
         &params[0]);
   });
-  return jsi::TypedArray<jsi::TypedArrayKind::Int32Array>(runtime, params);
+  return TypedArray<TypedArrayKind::Int32Array>(runtime, params);
 }
 
 NATIVE_METHOD(getUniformBlockIndex) {

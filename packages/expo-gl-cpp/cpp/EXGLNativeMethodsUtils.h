@@ -13,6 +13,7 @@
 #include <jsi/jsi.h>
 #include <type_traits>
 
+#include "TypedArrayApi.h"
 #include "EXJSIUtils.h"
 
 namespace jsi = facebook::jsi;
@@ -98,17 +99,20 @@ inline jsi::Array unpackArg<jsi::Array>(jsi::Runtime &runtime, const jsi::Value 
 }
 
 template <>
-inline jsi::TypedArrayBase unpackArg<jsi::TypedArrayBase>(
+inline TypedArrayBase unpackArg<TypedArrayBase>(
     jsi::Runtime &runtime,
     const jsi::Value *jsArgv) {
-  return jsArgv->asObject(runtime).asTypedArray(runtime);
+  return getTypedArray(runtime, jsArgv->asObject(runtime));
 }
 
 template <>
 inline jsi::ArrayBuffer unpackArg<jsi::ArrayBuffer>(
     jsi::Runtime &runtime,
     const jsi::Value *jsArgv) {
-  return jsArgv->asObject(runtime).asArrayBuffer(runtime);
+  if (!jsArgv->isObject() || !jsArgv->asObject(runtime).isArrayBuffer(runtime)) {
+    throw std::runtime_error("value is not an ArrayBuffer");
+  }
+  return jsArgv->asObject(runtime).getArrayBuffer(runtime);
 }
 
 //
@@ -149,23 +153,24 @@ inline std::enable_if_t<is_supported_vector<T>, T> unpackArg(
   auto jsObj = jsArgv->asObject(runtime);
   if (jsObj.isArray(runtime)) {
     return jsArrayToVector<typename T::value_type>(runtime, jsObj.asArray(runtime));
-  } else if (jsObj.isTypedArray(runtime)) {
+  } else if (isTypedArray(runtime, jsObj)) {
     if constexpr (std::is_same_v<typename T::value_type, uint32_t>) {
-      return jsObj.asTypedArray(runtime).as<jsi::TypedArrayKind::Uint32Array>(runtime).toVector(
-          runtime);
+      return getTypedArray(runtime, std::move(jsObj))
+          .as<TypedArrayKind::Uint32Array>(runtime)
+          .toVector(runtime);
     } else if constexpr (std::is_same_v<typename T::value_type, int32_t>) {
-      return jsObj.asTypedArray(runtime).as<jsi::TypedArrayKind::Int32Array>(runtime).toVector(runtime);
+      return getTypedArray(runtime, std::move(jsObj)).as<TypedArrayKind::Int32Array>(runtime).toVector(runtime);
     } else if constexpr (std::is_same_v<typename T::value_type, float>) {
-      return jsObj.asTypedArray(runtime).as<jsi::TypedArrayKind::Float32Array>(runtime).toVector(
+      return getTypedArray(runtime, std::move(jsObj)).as<TypedArrayKind::Float32Array>(runtime).toVector(
           runtime);
     }
   }
   throw std::runtime_error("unsupported type");
 }
 
-template <jsi::TypedArrayKind T>
-inline jsi::TypedArray<T> unpackArg(jsi::Runtime &runtime, const jsi::Value *jsArgv) {
-  return jsArgv->asObject(runtime).asTypedArray(runtime).as<T>(runtime);
+template <TypedArrayKind T>
+inline TypedArray<T> unpackArg(jsi::Runtime &runtime, const jsi::Value *jsArgv) {
+  return getTypedArray(runtime, jsArgv->asObject(runtime)).as<T>(runtime);
 }
 
 // set of private helpers, do not use directly

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "EXPlatformUtils.h"
+#include "TypedArrayApi.h"
 
 namespace jsi = facebook::jsi;
 
@@ -32,10 +33,10 @@ inline std::vector<std::string> jsArrayToVector(jsi::Runtime &runtime, const jsi
 inline std::vector<uint8_t> rawArrayBuffer(jsi::Runtime &runtime, const jsi::Object &arr) {
   if (arr.isArrayBuffer(runtime)) {
     auto buffer = arr.getArrayBuffer(runtime);
-    return buffer.toVector(runtime);
-  } else if (arr.isTypedArray(runtime)) {
-    auto buffer = arr.getTypedArray(runtime).getBuffer(runtime);
-    return buffer.toVector(runtime);
+    return arrayBufferToVector(runtime, buffer);
+  } else if (isTypedArray(runtime, arr)) {
+    auto buffer = getTypedArray(runtime, arr).getBuffer(runtime);
+    return arrayBufferToVector(runtime, buffer);
   }
   throw std::runtime_error("Object is not an ArrayBuffer nor a TypedArray");
 }
