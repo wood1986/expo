@@ -310,7 +310,7 @@ CACHE_KEYS:
       - ABI34_0_0EXFont (6.0.0-alpha.0)
   ABI34_0_0EXGL:
     BUILD_SETTINGS_CHECKSUM:
-      ABI34_0_0EXGL: 291745b519756977cd30f6adb36a1d5b
+      ABI34_0_0EXGL: 7f3ca7d72eda06b23230b5b4b2d6d084
     CHECKSUM: 0bbc40546bc2920eb80f75681d3555649b2cad8c
     FILES:
       - "../versioned-react-native/ABI34_0_0/EXGL/ABI34_0_0EXGL/ABI34_0_0EXGLCameraObject.h"
@@ -488,7 +488,7 @@ CACHE_KEYS:
       - ABI34_0_0EXPermissions (5.0.0)
   ABI34_0_0ExpoKit:
     BUILD_SETTINGS_CHECKSUM:
-      ABI34_0_0ExpoKit: 1119dd12b8b27f5b7225cf3b3f3f64fc
+      ABI34_0_0ExpoKit: 49d8b9ed771e1e2e41bceb0053dde89d
     CHECKSUM: 91daa5ea7dfcad85f3c2e42db3710533d14f9808
     FILES:
       - "../versioned-react-native/ABI34_0_0/Expo/Core/ABI34_0_0EXUnversioned.h"
@@ -1613,7 +1613,7 @@ CACHE_KEYS:
       - ABI35_0_0EXFont (6.0.1)
   ABI35_0_0EXGL:
     BUILD_SETTINGS_CHECKSUM:
-      ABI35_0_0EXGL: 66a1d170012eab5cd20a2d137cf24ab3
+      ABI35_0_0EXGL: 7280d78755ba380433451b74adf9e64f
     CHECKSUM: f4ed70897ec10a2fa64591ae25cd6c1a50d7e024
     FILES:
       - "../versioned-react-native/ABI35_0_0/EXGL/ABI35_0_0EXGL/ABI35_0_0EXGLCameraObject.h"
@@ -2974,7 +2974,7 @@ CACHE_KEYS:
       - ABI36_0_0EXFont (7.0.0)
   ABI36_0_0EXGL:
     BUILD_SETTINGS_CHECKSUM:
-      ABI36_0_0EXGL: ec1207ba7394e9af9508e99cf24ca337
+      ABI36_0_0EXGL: 152fe669f3a41932037fb6d56e66dc6e
     CHECKSUM: 71f2b05f8e48945b776455cbd18deeb6bb390c6c
     FILES:
       - "../versioned-react-native/ABI36_0_0/Expo/EXGL/ABI36_0_0EXGL/ABI36_0_0EXGLCameraObject.h"
@@ -5207,7 +5207,7 @@ CACHE_KEYS:
       - ABI37_0_0EXFont (8.0.0)
   ABI37_0_0EXGL:
     BUILD_SETTINGS_CHECKSUM:
-      ABI37_0_0EXGL: 07bd6bbfc5fe050acfd2b579331f08ca
+      ABI37_0_0EXGL: b1ada2630929d2a31081fc5c8634f65a
     CHECKSUM: 057137bfc60ce9fd914031a67f2860c5d1a28617
     FILES:
       - "../versioned-react-native/ABI37_0_0/Expo/EXGL/ABI37_0_0EXGL/ABI37_0_0EXGLCameraObject.h"
@@ -7555,7 +7555,7 @@ CACHE_KEYS:
       - EXFont (8.1.1)
   EXGL:
     BUILD_SETTINGS_CHECKSUM:
-      EXGL: bca8f8421e2d5161f85265d66e770356
+      EXGL: 7c7762dc91021bb532cba79be2c9cca5
     CHECKSUM: 7df5a1c0cd23dc7496d95889d4274448de8e21a2
     FILES:
       - "../../packages/expo-gl/ios/EXGL/EXGLCameraObject.h"
@@ -7575,27 +7575,26 @@ CACHE_KEYS:
       - EXGL (8.1.0)
   EXGL_CPP:
     BUILD_SETTINGS_CHECKSUM:
-      EXGL_CPP: a826c42c1bffaf535c5e5f75d7f48a5d
-    CHECKSUM: a70374bf147b423e4ed8dd435006581de7e3c311
+      EXGL_CPP: 99468d5c41520658b3565507679a1e9a
+    CHECKSUM: 152124be90c3caa2832f5b6a1a9b0dec84a88200
     FILES:
+      - "../../packages/expo-gl-cpp/cpp/EXGLContext-inl.h"
       - "../../packages/expo-gl-cpp/cpp/EXGLContext.cpp"
       - "../../packages/expo-gl-cpp/cpp/EXGLContext.h"
-      - "../../packages/expo-gl-cpp/cpp/EXGLInstallConstants.cpp"
-      - "../../packages/expo-gl-cpp/cpp/EXGLInstallMethods.cpp"
+      - "../../packages/expo-gl-cpp/cpp/EXGLImageUtils.cpp"
+      - "../../packages/expo-gl-cpp/cpp/EXGLImageUtils.h"
       - "../../packages/expo-gl-cpp/cpp/EXGLNativeMethods.cpp"
-      - "../../packages/expo-gl-cpp/cpp/EXiOSUtils.h"
+      - "../../packages/expo-gl-cpp/cpp/EXGLNativeMethodsUtils.h"
       - "../../packages/expo-gl-cpp/cpp/EXiOSUtils.mm"
-      - "../../packages/expo-gl-cpp/cpp/EXJSConvertTypedArray.c"
-      - "../../packages/expo-gl-cpp/cpp/EXJSConvertTypedArray.h"
-      - "../../packages/expo-gl-cpp/cpp/EXJSUtils.c"
-      - "../../packages/expo-gl-cpp/cpp/EXJSUtils.h"
+      - "../../packages/expo-gl-cpp/cpp/EXJSIUtils.h"
+      - "../../packages/expo-gl-cpp/cpp/EXPlatformUtils.h"
       - "../../packages/expo-gl-cpp/cpp/stb_image.h"
+      - "../../packages/expo-gl-cpp/cpp/TypedArrayApi.h"
       - "../../packages/expo-gl-cpp/cpp/UEXGL.cpp"
       - "../../packages/expo-gl-cpp/cpp/UEXGL.h"
     PROJECT_NAME: EXGL_CPP
     SPECS:
       - EXGL_CPP (8.1.0)
-      - EXGL_CPP/EXGLContext (8.1.0)
   EXGoogleSignIn:
     BUILD_SETTINGS_CHECKSUM:
       EXGoogleSignIn: 30e34240c7bb5878127e7c1aaca288a9
@@ -8206,8 +8205,8 @@ CACHE_KEYS:
       - nanopb/encode (0.3.9011)
   Pods-Exponent:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 234b9984682505865bf98188fdf8ee97
-      Release: 234b9984682505865bf98188fdf8ee97
+      Debug: 9f027e82bcbe60eb5b55031f50049d8b
+      Release: 9f027e82bcbe60eb5b55031f50049d8b
   Pods-ExponentIntegrationTests:
     BUILD_SETTINGS_CHECKSUM:
       Debug: 8c94d5ea6c10a3e4056bfdf6596c84fa
