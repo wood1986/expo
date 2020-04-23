@@ -19,20 +19,43 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXFileReference section */
-		183A6117ED28FF423A048B0FE8DECAD2 /* FABAttributes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FABAttributes.h; path = iOS/Fabric.framework/Headers/FABAttributes.h; sourceTree = "<group>"; };
-		2EC91A4108E2CE34E6821AB2CAC69BB7 /* Fabric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Fabric.h; path = iOS/Fabric.framework/Headers/Fabric.h; sourceTree = "<group>"; };
-		2FA640E4F78DF3646BB6CE48B06A6ECD /* Fabric.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fabric.xcconfig; sourceTree = "<group>"; };
-		C312993F1BF5CEA8C98F7E2A84F04181 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = iOS/Fabric.framework; sourceTree = "<group>"; };
+		4AA4D52D90BA703D8EC54A847C8FACA7 /* FABAttributes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FABAttributes.h; path = iOS/Fabric.framework/Headers/FABAttributes.h; sourceTree = "<group>"; };
+		79F50B0A3DEC86FE19BCAAD72F1C58A5 /* Fabric.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fabric.release.xcconfig; sourceTree = "<group>"; };
+		7D7B9A22DA5FC445CB78AE9947D071D1 /* Fabric.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fabric.debug.xcconfig; sourceTree = "<group>"; };
+		C0CD88BE6411A99D3B551D2D4DADBEF8 /* Fabric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Fabric.h; path = iOS/Fabric.framework/Headers/Fabric.h; sourceTree = "<group>"; };
+		F74280AF77944BF102E1E8B7BABDAF77 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = iOS/Fabric.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		03E979585421C53B8DD26CF47C59BB39 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				7D7B9A22DA5FC445CB78AE9947D071D1 /* Fabric.debug.xcconfig */,
+				79F50B0A3DEC86FE19BCAAD72F1C58A5 /* Fabric.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Fabric";
+			sourceTree = "<group>";
+		};
 		1EA974EBCD68630359201CFF6F7CAFBC = {
 			isa = PBXGroup;
 			children = (
-				EA9F634B22F8FCE4673B55905EB06F69 /* Fabric */,
+				4DBDC7439239E5B5594DA7D3D6A1BF1F /* Fabric */,
 				C31CC9E96DFFF8A0AFFA741593DD1E50 /* Frameworks */,
 				90F53EAFC9922E5044CBE7ABE9C37AF1 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		4DBDC7439239E5B5594DA7D3D6A1BF1F /* Fabric */ = {
+			isa = PBXGroup;
+			children = (
+				4AA4D52D90BA703D8EC54A847C8FACA7 /* FABAttributes.h */,
+				C0CD88BE6411A99D3B551D2D4DADBEF8 /* Fabric.h */,
+				9C5CE7F8D377E6569E84C4A0620E3010 /* Frameworks */,
+				03E979585421C53B8DD26CF47C59BB39 /* Support Files */,
+			);
+			name = Fabric;
+			path = Fabric;
 			sourceTree = "<group>";
 		};
 		90F53EAFC9922E5044CBE7ABE9C37AF1 /* Products */ = {
@@ -42,13 +65,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		91CA8DBD2783DDF1A4E8E3CC6B17A417 /* Support Files */ = {
+		9C5CE7F8D377E6569E84C4A0620E3010 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2FA640E4F78DF3646BB6CE48B06A6ECD /* Fabric.xcconfig */,
+				F74280AF77944BF102E1E8B7BABDAF77 /* Fabric.framework */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/Fabric";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C31CC9E96DFFF8A0AFFA741593DD1E50 /* Frameworks */ = {
@@ -56,26 +78,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		D22DB7BAFE8FF935B1FE6A2AE0E2A0BF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C312993F1BF5CEA8C98F7E2A84F04181 /* Fabric.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EA9F634B22F8FCE4673B55905EB06F69 /* Fabric */ = {
-			isa = PBXGroup;
-			children = (
-				183A6117ED28FF423A048B0FE8DECAD2 /* FABAttributes.h */,
-				2EC91A4108E2CE34E6821AB2CAC69BB7 /* Fabric.h */,
-				D22DB7BAFE8FF935B1FE6A2AE0E2A0BF /* Frameworks */,
-				91CA8DBD2783DDF1A4E8E3CC6B17A417 /* Support Files */,
-			);
-			name = Fabric;
-			path = Fabric;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -106,9 +108,9 @@
 /* End PBXProject section */
 
 /* Begin XCBuildConfiguration section */
-		634D7A58E22DB1751E39520A9263E5BF /* Release */ = {
+		66A2E47FE49B9EDF4C3CAE657207ED67 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FA640E4F78DF3646BB6CE48B06A6ECD /* Fabric.xcconfig */;
+			baseConfigurationReference = 79F50B0A3DEC86FE19BCAAD72F1C58A5 /* Fabric.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -244,9 +246,9 @@
 			};
 			name = Release;
 		};
-		BA2B7AF66919766CF09513C925D8B26A /* Debug */ = {
+		DD345880B62058ECF13D3F777AF9EB22 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FA640E4F78DF3646BB6CE48B06A6ECD /* Fabric.xcconfig */;
+			baseConfigurationReference = 7D7B9A22DA5FC445CB78AE9947D071D1 /* Fabric.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -263,8 +265,8 @@
 		58683DE3C24B53FBF12B7C20ADBFEABC /* Build configuration list for PBXAggregateTarget "Fabric" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				BA2B7AF66919766CF09513C925D8B26A /* Debug */,
-				634D7A58E22DB1751E39520A9263E5BF /* Release */,
+				DD345880B62058ECF13D3F777AF9EB22 /* Debug */,
+				66A2E47FE49B9EDF4C3CAE657207ED67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

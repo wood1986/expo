@@ -1652,6 +1652,9 @@ PODS:
     - UMConstantsInterface
     - UMCore
     - UMTaskManagerInterface
+  - EXUpdates (0.1.0):
+    - React
+    - UMCore
   - EXVideoThumbnails (4.1.1):
     - UMCore
     - UMFileSystemInterface
@@ -2547,6 +2550,7 @@ DEPENDENCIES:
   - EXSQLite (from `../packages/expo-sqlite/ios`)
   - EXStoreReview (from `../packages/expo-store-review/ios`)
   - EXTaskManager (from `../packages/expo-task-manager/ios`)
+  - EXUpdates (from `../packages/expo-updates/ios`)
   - EXVideoThumbnails (from `../packages/expo-video-thumbnails/ios`)
   - EXWebBrowser (from `../packages/expo-web-browser/ios`)
   - Fabric (~> 1.10.2)
@@ -3398,6 +3402,8 @@ EXTERNAL SOURCES:
     :path: "../packages/expo-store-review/ios"
   EXTaskManager:
     :path: "../packages/expo-task-manager/ios"
+  EXUpdates:
+    :path: "../packages/expo-updates/ios"
   EXVideoThumbnails:
     :path: "../packages/expo-video-thumbnails/ios"
   EXWebBrowser:
@@ -3860,6 +3866,7 @@ SPEC CHECKSUMS:
   EXSQLite: 877ad6c8eb169353a2f94d5ad26510ffadd46a1f
   EXStoreReview: 8a238c698c0cc2f7f46b21b6fa05c070003fd3cd
   EXTaskManager: 6cc65abbc1b226524d551ef2a08a7afe8be03044
+  EXUpdates: 23d903cabd21faff2b3360e1a4423ea3b1f00e54
   EXVideoThumbnails: be6984a3cda1e44c45b5c6278244e99855f99a0a
   EXWebBrowser: c8abe4e22f30322949da381d4f6faa8d94ba6b59
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -3934,6 +3941,6 @@ SPEC CHECKSUMS:
   yogaABI35_0_0: ba82ada0c3a58619049128d51d6de437638fe1a1
   ZXingObjC: fdbb269f25dd2032da343e06f10224d62f537bdb
 
-PODFILE CHECKSUM: cc978d0964c38603a1d90f03145d58a04672909b
+PODFILE CHECKSUM: cae9d8f90345afd5cc2f68633bcfd17ef14ba9c7
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0
