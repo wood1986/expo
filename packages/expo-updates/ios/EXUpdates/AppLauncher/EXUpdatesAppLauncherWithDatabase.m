@@ -156,7 +156,7 @@ static NSString * const kEXUpdatesAppLauncherErrorDomain = @"AppLauncher";
       }
 
       if (error) {
-        NSLog(@"Error copying embedded asset with URL %@: %@", asset.url.absoluteString, error.localizedDescription);
+        NSLog(@"Error copying embedded asset %@: %@", asset.packagerKey, error.localizedDescription);
       }
 
       [self _downloadAsset:asset withLocalUrl:assetLocalUrl completion:^(NSError * _Nullable error, EXUpdatesAsset *asset, NSURL *assetLocalUrl) {
@@ -166,7 +166,7 @@ static NSString * const kEXUpdatesAppLauncherErrorDomain = @"AppLauncher";
             // so we want to propagate this error
             self->_launchAssetError = error;
           }
-          NSLog(@"Failed to load missing asset with URL %@: %@", asset.url.absoluteString, error.localizedDescription);
+          NSLog(@"Failed to load missing asset %@: %@", asset.packagerKey, error.localizedDescription);
           completion(NO);
         } else {
           // attempt to update the database record to match the newly downloaded asset
@@ -205,7 +205,7 @@ static NSString * const kEXUpdatesAppLauncherErrorDomain = @"AppLauncher";
   if (embeddedManifest) {
     EXUpdatesAsset *matchingAsset;
     for (EXUpdatesAsset *embeddedAsset in embeddedManifest.assets) {
-      if ([[embeddedAsset.url absoluteString] isEqualToString:[asset.url absoluteString]]) {
+      if ([embeddedAsset.packagerKey isEqualToString:asset.packagerKey]) {
         matchingAsset = embeddedAsset;
         break;
       }
@@ -231,6 +231,9 @@ static NSString * const kEXUpdatesAppLauncherErrorDomain = @"AppLauncher";
           withLocalUrl:(NSURL *)assetLocalUrl
             completion:(void (^)(NSError * _Nullable error, EXUpdatesAsset *asset, NSURL *assetLocalUrl))completion
 {
+  if (!asset.url) {
+    completion([NSError errorWithDomain:kEXUpdatesAppLauncherErrorDomain code:1007 userInfo:@{NSLocalizedDescriptionKey: @"Failed to download asset with no URL provided"}], asset, assetLocalUrl);
+  }
   dispatch_async(EXUpdatesAppController.sharedInstance.assetFilesQueue, ^{
     [self.downloader downloadFileFromURL:asset.url toPath:[assetLocalUrl path] successBlock:^(NSData *data, NSURLResponse *response) {
       dispatch_async(self->_launcherQueue, ^{
