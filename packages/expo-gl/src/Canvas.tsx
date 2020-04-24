@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import {
-  createElement,
   LayoutChangeEvent,
   PixelRatio,
   StyleSheet,
   View,
   ViewProps,
 } from 'react-native';
+
+const createElement = require('react-native').unstable_createElement || equire('react-native').createElement;
 
 function getElement(component) {
   try {
